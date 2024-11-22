@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 import 'package:yummy/screens/restaurant_page/widgets/add_cart_button.dart';
 import 'package:yummy/screens/restaurant_page/widgets/cart_icon_button.dart';
 import 'package:yummy/screens/restaurant_page/widgets/cart_number_container.dart';
-import '../../../models/cart_item.dart';
 import '../../../models/restaurant.dart';
-import '../../providers/cart/cart_provider.dart';
 
 class CartControl extends ConsumerStatefulWidget {
   const CartControl(this.item, {super.key});
