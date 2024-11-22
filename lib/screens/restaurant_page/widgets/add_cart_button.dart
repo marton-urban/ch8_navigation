@@ -2,31 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yummy/models/cart_item.dart';
+import 'package:yummy/models/restaurant.dart';
 import 'package:yummy/screens/providers/cart/cart_provider.dart';
-import 'package:yummy/screens/restaurant_page/widgets/cart_control.dart';
 
-class AddCartButton extends StatelessWidget {
+class AddCartButton extends ConsumerWidget {
   const AddCartButton({
     super.key,
-    required this.widget,
+    required this.item,
     required int cartNumber,
-    required this.ref,
-    required this.context,
   }) : _cartNumber = cartNumber;
 
-  final CartControl widget;
+  final Item item;
   final int _cartNumber;
-  final WidgetRef ref;
-  final BuildContext context;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FilledButton(
       onPressed: () {
         final cartItem = CartItem(
             id: Uuid().v4(),
-            name: widget.item.name,
-            price: widget.item.price,
+            name: item.name,
+            price: item.price,
             quantity: _cartNumber);
 
         ref.read(cartProvider.notifier).addItem(cartItem);

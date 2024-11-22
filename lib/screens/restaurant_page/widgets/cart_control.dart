@@ -46,11 +46,7 @@ class _CartControlState extends ConsumerState<CartControl> {
             onPressed: decrementCartNumber,
             tooltip: 'Decrease Cart Count'),
         const Spacer(),
-        AddCartButton(
-            widget: widget,
-            cartNumber: _cartNumber,
-            ref: ref,
-            context: context),
+        AddCartButton(item: widget.item, cartNumber: _cartNumber),
         Container(color: Colors.red, height: 44.0)
       ],
     );

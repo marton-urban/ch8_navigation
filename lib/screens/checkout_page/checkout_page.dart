@@ -132,7 +132,6 @@ class _CheckoutPageState extends ConsumerState<CheckoutPage> {
             const Text('Order Summary'),
             OrderSummary(onDismissed: removeItem),
             SubmitButton(
-              ref: ref,
               selectedSegment: selectedSegment,
               selectedTime: selectedTime,
               selectedDate: selectedDate,

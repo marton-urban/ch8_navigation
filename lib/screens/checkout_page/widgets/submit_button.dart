@@ -7,24 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class SubmitButton extends StatelessWidget {
+class SubmitButton extends ConsumerWidget {
   const SubmitButton({
     super.key,
-    required this.ref,
     required this.selectedSegment,
     required this.selectedTime,
     required this.selectedDate,
     required TextEditingController nameController,
   }) : _nameController = nameController;
 
-  final WidgetRef ref;
   final Set<int> selectedSegment;
   final TimeOfDay? selectedTime;
   final DateTime? selectedDate;
   final TextEditingController _nameController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       onPressed: ref.read(cartRepositoryProvider).isEmpty
           ? null
