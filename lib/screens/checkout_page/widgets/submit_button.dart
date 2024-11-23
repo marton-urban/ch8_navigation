@@ -1,3 +1,4 @@
+import 'package:yummy/config/router/router_provider.dart';
 import '../../../config/router/route_names.dart';
 import '../../../models/order.dart';
 import '../../../repositories/providers/cart_repository/cart_repository_provider.dart';
@@ -5,7 +6,6 @@ import '../../providers/cart/cart_provider.dart';
 import '../../providers/orders/orders_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class SubmitButton extends ConsumerWidget {
   const SubmitButton({
@@ -26,7 +26,10 @@ class SubmitButton extends ConsumerWidget {
     return ElevatedButton(
       onPressed: ref.read(cartRepositoryProvider).isEmpty
           ? null
-          : () {
+          : () async {
+              final cartNotifier = ref.read(cartProvider.notifier);
+              final ordersNotifier = ref.read(ordersProvider.notifier);
+              final goRouterProvider = ref.read(routerProvider);
               final selectedSegment = this.selectedSegment;
               final selectedTime = this.selectedTime;
               final selectedDate = this.selectedDate;
@@ -40,10 +43,11 @@ class SubmitButton extends ConsumerWidget {
                   name: name,
                   items: items);
 
-              ref.read(cartProvider.notifier).resetCart();
-              ref.read(ordersProvider.notifier).addOrder(order);
-              Navigator.pop(context);
-              context.goNamed(RouteNames.myorders);
+              Navigator.of(context).pop();
+              cartNotifier.resetCart();
+              ordersNotifier.addOrder(order);
+              await Future.delayed(Duration(milliseconds: 200));
+              goRouterProvider.goNamed(RouteNames.myorders);
             },
       child: Padding(
         padding: const EdgeInsets.all(16.0),
