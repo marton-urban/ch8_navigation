@@ -1,19 +1,26 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/delay.dart';
+
 class AuthService {
+  AuthService({this.addDelay = true});
+
+  final bool addDelay;
+  final SharedPreferencesAsync prefs = SharedPreferencesAsync();
+
   Future<bool> get isLoggedIn async {
-    await Future<void>.delayed(const Duration(milliseconds: 200));
-    return await SharedPreferencesAsync().getBool('auth') ?? false;
+    await delay(addDelay, 200);
+    return await prefs.getBool('auth') ?? false;
   }
 
   Future<void> signIn(String username, String password) async {
-    await Future<void>.delayed(const Duration(milliseconds: 200));
+    await delay(addDelay, 200);
     // Sign in. Allow any password.
-    return SharedPreferencesAsync().setBool('auth', true);
+    return prefs.setBool('auth', true);
   }
 
   Future<void> signOut() async {
-    await Future<void>.delayed(const Duration(milliseconds: 200));
-    return SharedPreferencesAsync().setBool('auth', false);
+    await delay(addDelay, 200);
+    return prefs.setBool('auth', false);
   }
 }
