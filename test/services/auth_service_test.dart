@@ -17,5 +17,13 @@ void main() {
     test('isLoggedIn is false when auth is null', () async {
       expectLater(await authService.isLoggedIn, false);
     });
+    test('isLoggedIn is true after signIn', () async {
+      await authService.signIn('test', 'test');
+      expectLater(await authService.isLoggedIn, true);
+    });
+    test('isLoggedIn is false after signOut', () async {
+      await authService.signOut();
+      expectLater(await authService.isLoggedIn, false);
+    });
   });
 }
