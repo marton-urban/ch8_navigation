@@ -1,3 +1,6 @@
+@Timeout(Duration(milliseconds: 500))
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yummy/services/auth_service.dart';
 // these 2 dependencies were needed for .empty() - https://github.com/flutter/flutter/issues/153108
