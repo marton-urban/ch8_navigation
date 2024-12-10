@@ -63,6 +63,24 @@ void main() {
       verifyNoMoreInteractions(listener);
       verify(() => authRepository.loggedIn).called(2);
     });
+    test('signIn failure', () async {
+      when(() => authRepository.signIn('test', 'test'))
+          .thenThrow(Exception('Connection failed'));
+      when(() => authRepository.loggedIn)
+          .thenAnswer((_) => Future.value(false));
+      await container.read(authStateProvider.notifier).signIn('test', 'test');
+      verifyInOrder([
+        () => listener(null, AsyncLoading<bool>()),
+        () => listener(AsyncLoading<bool>(), AsyncData<bool>(false)),
+        () => listener(AsyncData<bool>(false), any(that: isA<AsyncLoading>())),
+        () => listener(
+            any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
+      ]);
+      // verify that the listener is no longer called
+      verifyNever(authRepository.signOut);
+      verifyNoMoreInteractions(listener);
+      verify(() => authRepository.loggedIn).called(1);
+    });
     test('signOut success', () async {
       when(() => authRepository.signOut()).thenAnswer((_) => Future.value());
       when(() => authRepository.loggedIn)
@@ -78,6 +96,23 @@ void main() {
       verifyNoMoreInteractions(listener);
       verifyNever(() => authRepository.signIn(any(), any()));
       verify(() => authRepository.loggedIn).called(2);
+    });
+    test('signOut failure', () async {
+      when(() => authRepository.signOut())
+          .thenThrow(Exception('Connection failed'));
+      when(() => authRepository.loggedIn).thenAnswer((_) => Future.value(true));
+      await container.read(authStateProvider.notifier).signOut();
+      verifyInOrder([
+        () => listener(null, AsyncLoading<bool>()),
+        () => listener(AsyncLoading<bool>(), AsyncData<bool>(false)),
+        () => listener(AsyncData<bool>(false), any(that: isA<AsyncLoading>())),
+        () => listener(
+            any(that: isA<AsyncLoading>()), any(that: isA<AsyncError>())),
+      ]);
+      // verify that the listener is no longer called
+      verifyNoMoreInteractions(listener);
+      verifyNever(() => authRepository.signIn(any(), any()));
+      verify(() => authRepository.loggedIn).called(1);
     });
   });
 }
