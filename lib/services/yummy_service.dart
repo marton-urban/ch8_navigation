@@ -3,6 +3,7 @@
 import 'package:yummy/models/food_category.dart';
 import 'package:yummy/models/post.dart';
 import 'package:yummy/models/restaurant.dart';
+import 'package:yummy/utils/delay.dart';
 
 class ExploreData {
   final List<Restaurant> restaurants;
@@ -14,6 +15,9 @@ class ExploreData {
 
 // Mock Yummy service that grabs sample data to mock up a food app request/response
 class YummyService {
+  YummyService({this.addDelay = true});
+
+  final bool addDelay;
   // Batch request that gets both today recipes and friend's feed
   Future<ExploreData> getExploreData() async {
     final restaurants = await _getRestaurants();
@@ -26,7 +30,7 @@ class YummyService {
   // Get sample food categories to display in ui
   Future<List<FoodCategory>> _getCategories() async {
     // Simulate api request wait time
-    await Future.delayed(const Duration(milliseconds: 50));
+    await delay(addDelay, 50);
     // Return mock categories
     return categories;
   }
@@ -34,7 +38,7 @@ class YummyService {
   // Get the friend posts to display in ui
   Future<List<Post>> _getFriendFeed() async {
     // Simulate api request wait time
-    await Future.delayed(const Duration(milliseconds: 50));
+    await delay(addDelay, 50);
     // Return mock posts
     return posts;
   }
@@ -42,7 +46,7 @@ class YummyService {
   // Get the restaurants to display in ui
   Future<List<Restaurant>> _getRestaurants() async {
     // Simulate api request wait time
-    await Future.delayed(const Duration(milliseconds: 50));
+    await delay(addDelay, 50);
     // Return mock restaurants
     return restaurants;
   }

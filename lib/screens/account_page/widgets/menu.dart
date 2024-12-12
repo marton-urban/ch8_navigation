@@ -16,7 +16,7 @@ class Menu extends ConsumerWidget {
           onTap: () {},
         ),
         ListTile(
-          title: const Text('Log out'),
+          title: const Text('Logout'),
           onTap: () => ref.read(authStateProvider.notifier).signOut(),
         )
       ],

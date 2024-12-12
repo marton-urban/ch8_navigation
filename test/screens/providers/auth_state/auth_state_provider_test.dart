@@ -28,7 +28,6 @@ void main() {
       listener.call,
       fireImmediately: true,
     );
-    await container.read(authStateProvider.future);
   });
 
   setUpAll(() {
