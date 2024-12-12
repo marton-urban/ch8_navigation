@@ -36,14 +36,14 @@ class Robot {
     final finder = find.text('Account');
     expect(finder, findsOneWidget);
     await tester.tap(finder);
-    await tester.pumpAndSettle();
+    await tester.pump();
   }
 
   Future<void> tapLogoutButton() async {
     final logoutButton = find.text('Logout');
     expect(logoutButton, findsOneWidget);
     await tester.tap(logoutButton);
-    await tester.pumpAndSettle();
+    await tester.pump();
   }
 
   void expectLoginButton() {
