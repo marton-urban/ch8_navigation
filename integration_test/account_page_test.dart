@@ -9,9 +9,11 @@ void main() {
   testWidgets('Logout success', (tester) async {
     final r = Robot(tester);
     await SharedPreferencesAsync().setBool('auth', true);
+    expect(await SharedPreferencesAsync().getBool('auth'), true);
     await r.pumpMyApp();
     await r.tapAccountTab();
     await r.tapLogoutButton();
     r.expectLoginButton();
+    expect(await SharedPreferencesAsync().getBool('auth'), false);
   });
 }
