@@ -8,21 +8,20 @@ import 'package:yummy/services/providers/yummy_service/yummy_service_provider.da
 import 'package:yummy/services/yummy_service.dart';
 
 class Robot {
-  Robot(this.tester);
-  final WidgetTester tester;
-
-  Future<void> pumpMyApp() async {
-    // Override repositories
-    final authRepository = AuthRepository(AuthService(addDelay: false));
-    final yummyService = YummyService(addDelay: false);
-    // * Create ProviderContainer with any required overrides
-    final container = ProviderContainer(
+  Robot(this.tester) {
+    container = ProviderContainer(
       overrides: [
         authRepositoryProvider.overrideWithValue(authRepository),
         yummyServiceProvider.overrideWithValue(yummyService),
       ],
     );
+  }
+  final WidgetTester tester;
+  late final ProviderContainer container;
+  final authRepository = AuthRepository(AuthService(addDelay: false));
+  final yummyService = YummyService(addDelay: false);
 
+  Future<void> pumpMyApp() async {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
@@ -49,5 +48,19 @@ class Robot {
   void expectLoginButton() {
     final loginButton = find.text('Login');
     expect(loginButton, findsOneWidget);
+  }
+
+  Future<void> setLoggedIn() async {
+    await container.read(authRepositoryProvider).signIn('test', 'test');
+  }
+
+  Future<void> expectLoggedIn() async {
+    final loggedIn = await container.read(authRepositoryProvider).loggedIn;
+    expect(loggedIn, true);
+  }
+
+  Future<void> expectLoggedOut() async {
+    final loggedIn = await container.read(authRepositoryProvider).loggedIn;
+    expect(loggedIn, false);
   }
 }
