@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:yummy/main.dart';
 import 'package:yummy/repositories/auth_repository.dart';
 import 'package:yummy/repositories/providers/auth_repository/auth_repository_provider.dart';
+import 'package:yummy/screens/providers/auth_state/auth_state_provider.dart';
 import 'package:yummy/services/auth_service.dart';
 import 'package:yummy/services/providers/yummy_service/yummy_service_provider.dart';
 import 'package:yummy/services/yummy_service.dart';
@@ -51,16 +52,16 @@ class Robot {
   }
 
   Future<void> setLoggedIn() async {
-    await container.read(authRepositoryProvider).signIn('test', 'test');
+    await container.read(authStateProvider.notifier).signIn('test', 'test');
   }
 
-  Future<void> expectLoggedIn() async {
-    final loggedIn = await container.read(authRepositoryProvider).loggedIn;
+  void expectLoggedIn() async {
+    final loggedIn = container.read(authStateProvider).value;
     expect(loggedIn, true);
   }
 
-  Future<void> expectLoggedOut() async {
-    final loggedIn = await container.read(authRepositoryProvider).loggedIn;
+  void expectLoggedOut() async {
+    final loggedIn = container.read(authStateProvider).value;
     expect(loggedIn, false);
   }
 }

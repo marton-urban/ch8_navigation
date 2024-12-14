@@ -8,11 +8,11 @@ void main() {
   testWidgets('Logout success', (tester) async {
     final r = Robot(tester);
     await r.setLoggedIn();
-    await r.expectLoggedIn();
+    r.expectLoggedIn();
     await r.pumpMyApp();
     await r.tapAccountTab();
     await r.tapLogoutButton();
+    r.expectLoggedOut();
     r.expectLoginButton();
-    await r.expectLoggedOut();
   });
 }
