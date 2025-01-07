@@ -1,6 +1,6 @@
 {
-    "name": "ch8_navigation",
-    "short_name": "ch8_navigation",
+    "name": "yummy",
+    "short_name": "yummy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

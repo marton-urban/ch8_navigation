@@ -1,4 +1,4 @@
-package com.example.ch8_navigation
+package com.example.yummy
 
 import io.flutter.embedding.android.FlutterActivity
 
